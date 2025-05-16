@@ -1,3 +1,14 @@
 .navContainer{
     
 }
+
+.header{
+    display: flex;
+    justify-content: center;
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -1,6 +1,9 @@
 import styles from './App.module.css'
 
+import { useState } from 'react';
+
 function App() {
+  const [outString, setOutString] = useState("hello world")
 
   return (
     <>
@@ -20,7 +23,7 @@ function App() {
       </div>
       <main className={styles.mainContainer}>
         <button>import photo</button>
-        <p>response from server</p>
+        <p>{outString}</p>
       </main>
     </>
   );
