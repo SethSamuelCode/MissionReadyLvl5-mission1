@@ -1,29 +1,42 @@
-import styles from './App.module.css'
+import styles from "./App.module.css";
 
-import { useState } from 'react';
+import { useState, useRef } from "react";
 
 function App() {
-  const [outString, setOutString] = useState("hello world")
+  const [outString, setOutString] = useState("hello world");
+  const [imageUploadedUrl, setImageUploadedUrl] = useState(null);
+
+  function handleFileUpload(e) {
+    const imageFile = e.target.files[0]
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(imageFile)
+    fileReader.onload= ()=>{
+      console.log(fileReader.result)
+      setImageUploadedUrl(fileReader.result)
+
+    }
+  }
 
   return (
     <>
       {/* // ----------------------- NAVBAR ----------------------- // */}
 
       <nav>
-        <div className={styles.navContainer} >
-
-        </div>
+        <div className={styles.navContainer}></div>
       </nav>
-{/* // ----------------------- HEADER ----------------------- // */}
+      {/* // ----------------------- HEADER ----------------------- // */}
 
       <div className={styles.header}>
-        <h1>
-          Seth Samuel mission 1
-        </h1>
+        <h1>Seth Samuel mission 1</h1>
       </div>
       <main className={styles.mainContainer}>
-        <button>import photo</button>
+        <input
+          type="file"
+          onChange={handleFileUpload}
+        />
+        {imageUploadedUrl && <img src={imageUploadedUrl}></img>}
         <p>{outString}</p>
+        <button>process photo</button>
       </main>
     </>
   );
