@@ -1,8 +1,7 @@
 // ------------------ SETUP AND INSTALL ----------------- //
 
-
 require("dotenv").config();
-const { GoogleAuth } = require('google-auth-library');
+const { GoogleAuth } = require("google-auth-library");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -31,11 +30,10 @@ app.use(morgan("dev"));
 
 // ---------------------- FUNCTIONS --------------------- //
 
-
 async function getAccessToken() {
   const auth = new GoogleAuth({
-    keyFile: './secrets/serviceKey.json',
-    scopes: 'https://www.googleapis.com/auth/cloud-platform',
+    keyFile: "./secrets/serviceKey.json",
+    scopes: "https://www.googleapis.com/auth/cloud-platform",
   });
 
   const client = await auth.getClient();
@@ -44,15 +42,42 @@ async function getAccessToken() {
 }
 // --------------------- ENTRYPOINT --------------------- //
 
-//async funcion so i can await get google access token.
-// the set up needs to complete before doing anything else 
+//async function so i can await get google access token.
+// the set up needs to complete before doing anything else
 async function entrypoint() {
-// ------------------------ SETUP ----------------------- //
-  // const tokenGet = await getAccessToken();
-  // console.log(tokenGet);
+  // ------------------------ SETUP ----------------------- //
+  const tokenUser = await getAccessToken();
+  // console.log(tokenUser.token);
+  // ------------------------------------------------------ //
 
-  console.log(process.env)
-
+  const resp = await fetch(process.env.GOOGLE_VISION_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${tokenUser.token}`,
+      "x-goog-user-project": `${process.env.GOOGLE_PROJECT}`,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      requests: [
+        {
+          image: {
+            source: {
+              imageUri: "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-5.jpg",
+            },
+          },
+          features: [
+            {
+              maxResults: 1,
+              type: "OBJECT_LOCALIZATION",
+            },
+          ],
+        },
+      ],
+    }),
+  });
+  const data = await resp.json();
+  const responseObject = data.responses[0]
+  console.log(responseObject);
 }
 
 entrypoint();
