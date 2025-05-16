@@ -6,12 +6,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = process.env.SERVER_LISTEN_PORT;
+//for error checking 
+const assert = require('node:assert/strict');
 // --------------------- MIDDLEWARES -------------------- //
 
 const morgan = require("morgan");
 app.use(morgan("dev"));
 //set allowable size to 10MB
-app.use(express.json({limit: '10MB'}));
+app.use(express.json({ limit: "10MB" }));
 
 const corsConfigs = {
   origin: (incomingOrigin, allowedAccess) => {
@@ -30,7 +32,6 @@ const corsConfigs = {
 
 app.use(cors(corsConfigs));
 
-
 // ---------------------- FUNCTIONS --------------------- //
 
 async function getAccessToken() {
@@ -44,12 +45,11 @@ async function getAccessToken() {
   return token;
 }
 
-
-// --------------------- ENTRYPOINT --------------------- //
-
 //async function so i can await get google access token.
 // the set up needs to complete before doing anything else
-async function getAIResults() {
+async function getAIResults(imageBase64) {
+  //check if the correct type gets passed in
+  // assert.ok( (typeof imageBase64)==String);
   const tokenUser = await getAccessToken();
   // console.log(tokenUser.token);
   // ------------------------------------------------------ //
@@ -65,13 +65,11 @@ async function getAIResults() {
       requests: [
         {
           image: {
-            source: {
-              imageUri: "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-5.jpg",
-            },
+            content: imageBase64,
           },
           features: [
             {
-              maxResults: 1,
+              maxResults: 3,
               type: "OBJECT_LOCALIZATION",
             },
           ],
@@ -80,25 +78,35 @@ async function getAIResults() {
     }),
   });
   const data = await resp.json();
-  const responseObject = data.responses[0];
+  const responseObject = data;
   console.log(responseObject);
+  return responseObject;
 }
+// --------------------- ENTRYPOINT --------------------- //
+
 
 // getAIResults();
 // ----------------------- ROUTES ----------------------- //
 app.get("/test", (req, resp) => {
-  resp.status(200).json({status:"success",data:"youve hit /test"})
+  resp.status(200).json({ status: "success", data: "youve hit /test" });
 });
 
-app.post("/postTest",(req,resp)=>{
-  console.log(req.body)
-  resp.status(200).json({status:"success",data: req.body})
-})
+app.post("/postTest", (req, resp) => {
+  console.log(req.body);
+  resp.status(200).json({ status: "success", data: req.body });
+});
 
-app.post("/sendImageBase64",(req,resp)=>{
-  console.log(req.body.image)
-  resp.status(200).json({status:"success",data:"ok"})
-})
+app.post("/sendImageBase64", (req, resp) => {
+  console.log(req.body.image);
+  resp.status(200).json({ status: "success", data: "ok" });
+});
+
+app.post("/ident",async (req, resp) => {
+  // console.log(req.body.image)
+  const ident = await getAIResults(req.body.image)
+  console.log(ident)
+  resp.status(200).json({ status: "success", data: ident });
+});
 
 app
   .listen(PORT, () => {
