@@ -40,6 +40,9 @@ async function getAccessToken() {
   const token = await client.getAccessToken();
   return token;
 }
+
+// ----------------------- ROUTES ----------------------- //
+
 // --------------------- ENTRYPOINT --------------------- //
 
 //async function so i can await get google access token.
