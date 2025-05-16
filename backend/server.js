@@ -69,7 +69,7 @@ async function getAIResults(imageBase64) {
           },
           features: [
             {
-              maxResults: 3,
+              maxResults: 1,
               type: "OBJECT_LOCALIZATION",
             },
           ],

@@ -22,6 +22,7 @@ function App() {
       //set image to be visible on the page
       setImageUploadedUrl(fileReader.result);
       //destructure the array from Regex.exec()
+      //Regex.exec() strips un needed info from the base 64
       const [imageBase64] = regexForBase64Image.exec(fileReader.result);
       imageBase64ToSend.current = imageBase64;
       console.log(imageBase64ToSend.current);
@@ -31,7 +32,7 @@ function App() {
   }
 
   async function sendToBackend() {
-    const resp = fetch(BACKEND_URL, {
+    const resp = await fetch(BACKEND_URL, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=utf-8",
@@ -40,6 +41,10 @@ function App() {
         image: imageBase64ToSend.current,
       }),
     });
+    const data = await resp.json()
+    // console.log(data.data.localizedObjectAnnotations[0])
+    const imageInfo=data.data.localizedObjectAnnotations[0]
+    setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${imageInfo.score * 100}`)
   }
 
   return (
