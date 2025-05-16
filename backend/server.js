@@ -44,11 +44,14 @@ async function getAccessToken() {
 }
 // --------------------- ENTRYPOINT --------------------- //
 
-async function main() {
-  
-
+//async funcion so i can await get google access token.
+// the set up needs to complete before doing anything else 
+async function entrypoint() {
+// ------------------------ SETUP ----------------------- //
   const tokenGet = await getAccessToken();
   console.log(tokenGet);
+
+
 }
 
-main();
+entrypoint();
