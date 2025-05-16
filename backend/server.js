@@ -48,9 +48,10 @@ async function getAccessToken() {
 // the set up needs to complete before doing anything else 
 async function entrypoint() {
 // ------------------------ SETUP ----------------------- //
-  const tokenGet = await getAccessToken();
-  console.log(tokenGet);
+  // const tokenGet = await getAccessToken();
+  // console.log(tokenGet);
 
+  console.log(process.env)
 
 }
 
