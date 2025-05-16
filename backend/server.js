@@ -102,10 +102,12 @@ app.post("/sendImageBase64", (req, resp) => {
 });
 
 app.post("/ident",async (req, resp) => {
+  // console.log("Received base64 image:", req.body.image);
   // console.log(req.body.image)
   const ident = await getAIResults(req.body.image)
-  console.log(ident)
-  resp.status(200).json({ status: "success", data: ident });
+  // console.log(ident.error.details[0])
+  console.log(ident.responses[0])
+  resp.status(200).json({ status: "success", data: ident.responses[0] });
 });
 
 app
