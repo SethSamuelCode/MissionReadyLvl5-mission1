@@ -44,7 +44,7 @@ function App() {
     const data = await resp.json()
     // console.log(data.data.localizedObjectAnnotations[0])
     const imageInfo=data.data.localizedObjectAnnotations[0]
-    setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${imageInfo.score * 100}`)
+    setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`)
   }
 
   return (
