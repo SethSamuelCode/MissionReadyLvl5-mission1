@@ -5,10 +5,12 @@ const { GoogleAuth } = require("google-auth-library");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
+const PORT = process.env.SERVER_LISTEN_PORT;
 // --------------------- MIDDLEWARES -------------------- //
 
 const morgan = require("morgan");
+app.use(morgan("dev"));
+app.use(express.json());
 
 const corsConfigs = {
   origin: (incomingOrigin, allowedAccess) => {
@@ -26,7 +28,7 @@ const corsConfigs = {
 };
 
 app.use(cors(corsConfigs));
-app.use(morgan("dev"));
+
 
 // ---------------------- FUNCTIONS --------------------- //
 
@@ -41,14 +43,12 @@ async function getAccessToken() {
   return token;
 }
 
-// ----------------------- ROUTES ----------------------- //
 
 // --------------------- ENTRYPOINT --------------------- //
 
 //async function so i can await get google access token.
 // the set up needs to complete before doing anything else
-async function entrypoint() {
-  // ------------------------ SETUP ----------------------- //
+async function getAIResults() {
   const tokenUser = await getAccessToken();
   // console.log(tokenUser.token);
   // ------------------------------------------------------ //
@@ -79,8 +79,30 @@ async function entrypoint() {
     }),
   });
   const data = await resp.json();
-  const responseObject = data.responses[0]
+  const responseObject = data.responses[0];
   console.log(responseObject);
 }
 
-entrypoint();
+// getAIResults();
+// ----------------------- ROUTES ----------------------- //
+app.get("/test", (req, resp) => {
+  resp.status(200).json({status:"success",data:"youve hit /test"})
+});
+
+app.post("/postTest",(req,resp)=>{
+  console.log(req.body)
+  resp.status(200).json({status:"success",data: req.body})
+})
+
+app.post("/sendImageBase64",(req,resp)=>{
+  console.log(req.body)
+  resp.status(200).json({status:"success",data:"ok"})
+})
+
+app
+  .listen(PORT, () => {
+    console.log(`server is listening at http://localhost:${PORT}`);
+  })
+  .on("error", (error) => {
+    console.log("server error !!!!", error);
+  });
