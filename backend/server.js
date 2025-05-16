@@ -10,7 +10,8 @@ const PORT = process.env.SERVER_LISTEN_PORT;
 
 const morgan = require("morgan");
 app.use(morgan("dev"));
-app.use(express.json());
+//set allowable size to 10MB
+app.use(express.json({limit: '10MB'}));
 
 const corsConfigs = {
   origin: (incomingOrigin, allowedAccess) => {
@@ -95,7 +96,7 @@ app.post("/postTest",(req,resp)=>{
 })
 
 app.post("/sendImageBase64",(req,resp)=>{
-  console.log(req.body)
+  console.log(req.body.image)
   resp.status(200).json({status:"success",data:"ok"})
 })
 
