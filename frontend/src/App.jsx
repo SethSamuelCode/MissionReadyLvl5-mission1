@@ -34,7 +34,7 @@ function App() {
           type="file"
           onChange={handleFileUpload}
         />
-        {imageUploadedUrl && <img src={imageUploadedUrl}></img>}
+        {imageUploadedUrl && <img className={styles.image} src={imageUploadedUrl}></img>}
         <p>{outString}</p>
         <button>process photo</button>
       </main>
