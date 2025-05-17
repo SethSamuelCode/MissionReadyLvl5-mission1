@@ -3,11 +3,6 @@ FROM node:lts-alpine
 # copy backend over 
 COPY ./backend /app/back
 
-# copy .env file
-COPY ./backend/.env /app/back/.env
-# copy secrets 
-COPY ./backend/secrets /app/back/secrets
-
 # install node and dependencies
 WORKDIR /app/back
 RUN npm ci --omit=dev 
