@@ -18,7 +18,7 @@ app.use(express.json({ limit: "10MB" }));
 const corsConfigs = {
   origin: (incomingOrigin, allowedAccess) => {
     //we add regex of sites we want to allow here
-    const allowedOrigins = [/^http:\/\/localhost:\d+$/];
+    const allowedOrigins = [/^http:\/\/localhost:\d+$/,/^https:\/\/mission1.sethsamuel.dev(.+)/];
 
     //some requests dont have an origin so we allow those through.
     //we scan the lists of allowed origins and if it works we allow them through
