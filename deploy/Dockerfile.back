@@ -1,7 +1,10 @@
 # Use an Nginx image for serving the built app
 FROM node:lts-alpine
 # copy backend over 
-COPY ./backend /app/back
+COPY backend /app/back
+
+# COPY ../.env /app/back
+# COPY ../secrets/serviceKey.json ./app/back/secrets/serviceKey.json
 
 # install node and dependencies
 WORKDIR /app/back
