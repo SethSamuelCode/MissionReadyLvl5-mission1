@@ -49,7 +49,7 @@ jobs:
           # Server address of Docker registry. If not set then will default to Docker Hub
           registry: git.sethsamuel.online
           # Username used to log against the Docker registry
-          username: docker
+          username: fluffy
           # Password or personal access token used to log against the Docker registry
           password: ${{ secrets.DOCKER_REPO_KEY }}
           # Specifies whether the given registry is ECR (auto, true or false)
@@ -82,8 +82,8 @@ jobs:
       - name: 'Stack Deploy'
         uses: cssnr/stack-deploy-action@v1
         with:
-          name: 'mission_ready_mission2'
-          file: './docker/docker-compose.yml'
+          name: 'mr_lvl5_mission2'
+          file: './deploy/Compose-back.yml'
           host: ${{ secrets.DOCKER_HOST }}
           user: ${{ secrets.DOCKER_USER }}
           ssh_key: '${{ secrets.DOCKER_SSH_KEY }}'
