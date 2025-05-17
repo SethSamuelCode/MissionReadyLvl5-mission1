@@ -1,0 +1,20 @@
+# Use an Nginx image for serving the built app
+FROM node:lts-alpine
+# copy backend over 
+COPY ./app/back /app/back
+
+# copy .env file
+COPY .env /app/back/.env
+# copy secrets 
+COPY ./backend/secrets /app/back/secrets
+
+# install node and dependencies
+WORKDIR /app/back
+RUN npm ci --omit=dev 
+
+
+
+# Expose the port
+EXPOSE 4000
+# Start Container
+ENTRYPOINT ["node","/app/back/server.js"]
