@@ -1,10 +1,10 @@
 # Use an Nginx image for serving the built app
 FROM node:lts-alpine
 # copy backend over 
-COPY ./app/back /app/back
+COPY ./backend /app/back
 
 # copy .env file
-COPY .env /app/back/.env
+COPY ./backend/.env /app/back/.env
 # copy secrets 
 COPY ./backend/secrets /app/back/secrets
 
