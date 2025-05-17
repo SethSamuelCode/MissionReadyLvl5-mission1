@@ -11,7 +11,7 @@ function App() {
   //we detect the base64,/part and grab everything after it
   //this is the base64 image we send to the backend for processing
   const regexForBase64Image = /(?<=base64.).+/;
-  const BACKEND_URL = "http://localhost:4000/ident";
+  const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
 
   function handleFileUpload(e) {
     const imageFile = e.target.files[0];
