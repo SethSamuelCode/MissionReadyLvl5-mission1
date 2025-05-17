@@ -10,13 +10,13 @@ services:
         constraints:
           - node.hostname==vps
     volumes:
-    - .env:/app/back/.env:ro
+    - envVar:/app/back/.env:ro
     - serviceKey.json:/app/back/secrets/serviceKey.json:ro
 networks:
   internal_interconnect_network:
     external: true
 volumes:
-  .env:
+  envVar:
     driver_opts:
       type: nfs
       o: "addr=srv.fluffyb.net,rw"
