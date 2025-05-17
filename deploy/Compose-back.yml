@@ -9,6 +9,20 @@ services:
     #   placement:
     #     constraints:
     #       - node.hostname==srv
+    volumes:
+    - .env:/app/back/.env:ro
+    - serviceKey.json:/app/back/secrets/serviceKey.json:ro
 networks:
   internal_interconnect_network:
     external: true
+volumes:
+  .env:
+    driver_opts:
+      type: nfs
+      o: "addr=srv.fluffyb.net,rw"
+      device: "://dockerStorage/missionReadyLvl5/mission1/.env"
+  serviceKey.json:
+    driver_opts:
+      type: nfs
+      o: "addr=srv.fluffyb.net,rw"
+      device: ":/dockerStorage/missionReadyLvl5/mission1/serviceKey.json:"
