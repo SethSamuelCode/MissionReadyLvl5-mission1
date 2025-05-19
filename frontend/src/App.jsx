@@ -11,7 +11,9 @@ function App() {
   //we detect the base64,/part and grab everything after it
   //this is the base64 image we send to the backend for processing
   const regexForBase64Image = /(?<=base64.).+/;
-  const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
+  // const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
+  const BACKEND_URL_ADV = "http://localhost:4000/ident";
+  const BACKEND_URL_PLAIN = "http://localhost:4000/identPlain";
 
   function handleFileUpload(e) {
     const imageFile = e.target.files[0];
@@ -31,7 +33,8 @@ function App() {
     };
   }
 
-  async function sendToBackend() {
+  async function sendToBackendAdv() {
+    console.log(imageBase64ToSend.current)
     const resp = await fetch(BACKEND_URL, {
       method: "POST",
       headers: {
@@ -46,6 +49,23 @@ function App() {
     const imageInfo=data.data.localizedObjectAnnotations[0]
     setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`)
   }
+    async function sendToBackendPlain() {
+    console.log(imageBase64ToSend.current)
+    const resp = await fetch(BACKEND_URL_PLAIN, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({
+        image: imageBase64ToSend.current,
+      }),
+    });
+    const data = await resp.json()
+    // console.log(data.data.localizedObjectAnnotations[0])
+    const imageInfo=data.data.localizedObjectAnnotations[0]
+    setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`)
+  }
+  
 
   return (
     <>
@@ -70,7 +90,7 @@ function App() {
             src={imageUploadedUrl}></img>
         )}
         <p>{outString}</p>
-        <button onClick={sendToBackend}>process photo</button>
+        <button onClick={sendToBackendPlain}>process photo plain</button>
       </main>
     </>
   );
