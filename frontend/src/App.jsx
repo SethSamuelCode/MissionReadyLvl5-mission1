@@ -91,6 +91,7 @@ function App() {
         )}
         <p>{outString}</p>
         <button onClick={sendToBackendPlain}>process photo plain</button>
+        <button onClick={sendToBackendAdv}>process photo trained</button>
       </main>
     </>
   );
