@@ -20,7 +20,7 @@ function App() {
   // Backend endpoints for AI processing
   // const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
   const BACKEND_URL_TRAINED = "http://localhost:4000/identTrained";
-  const BACKEND_URL_PLAIN = "http://localhost:4000/identPlain";
+  const BACKEND_URL_PLAIN = import.meta.env.VITE_BACKEND_URL_PLAIN || "http://localhost:4000/identPlain";
 
   // --------------------- FILE UPLOAD -------------------- //
 
@@ -75,6 +75,7 @@ function App() {
 
   async function sendToBackendPlain() {
     // console.log(imageBase64ToSend.current);
+    console.log(BACKEND_URL_PLAIN)
     const resp = await fetch(BACKEND_URL_PLAIN, {
       method: "POST",
       headers: {
@@ -101,8 +102,8 @@ function App() {
         {/* Show uploaded image preview if available */}
         {imageUploadedUrl && (
           <img
-          className={styles.image}
-          src={imageUploadedUrl}></img>
+            className={styles.image}
+            src={imageUploadedUrl}></img>
         )}
         {/* Output string from AI */}
         <p>STATUS:</p>
@@ -114,11 +115,23 @@ function App() {
             onChange={handleFileUpload}
             className={styles.filePicker}
           />
-          <label htmlFor="filePicker" className={styles.buttonLabel}>Upload image</label>
+          <label
+            htmlFor="filePicker"
+            className={styles.buttonLabel}>
+            Upload image
+          </label>
         </div>
         {/* Buttons to trigger AI processing */}
-        <button onClick={sendToBackendPlain} className={styles.processButton}>process photo plain</button>
-        <button onClick={sendToBackendTrained} className={styles.processButton} >process photo trained</button>
+        <button
+          onClick={sendToBackendPlain}
+          className={styles.processButton}>
+          process photo plain
+        </button>
+        <button
+          onClick={sendToBackendTrained}
+          className={styles.processButton}>
+          process photo trained
+        </button>
       </main>
     </>
   );
