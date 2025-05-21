@@ -20,7 +20,8 @@ function App() {
   // Backend endpoints for AI processing
   // const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
   const BACKEND_URL_TRAINED = "http://localhost:4000/identTrained";
-  const BACKEND_URL_PLAIN = import.meta.env.VITE_BACKEND_URL_PLAIN || "http://localhost:4000/identPlain";
+  // const BACKEND_URL_PLAIN = import.meta.env.VITE_BACKEND_URL_PLAIN || "http://localhost:4000/identPlain";
+  const BACKEND_URL_PLAIN = "http://localhost:4000/identPlain";
 
   // --------------------- FILE UPLOAD -------------------- //
 
