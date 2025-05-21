@@ -87,9 +87,7 @@ function App() {
     const data = await resp.json();
     // Get first detected object annotation
     const imageInfo = data.data.localizedObjectAnnotations[0];
-    setOutString(
-      `AI Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`
-    );
+    setOutString(`AI Thinks this is a ${imageInfo.name} with a certainty of ${(imageInfo.score * 100).toFixed(2)} %`);
   }
 
   return (
@@ -100,21 +98,27 @@ function App() {
       </div>
       <main className={styles.mainContainer}>
         {/* File input for image upload */}
-        <input
-          type="file"
-          onChange={handleFileUpload}
-        />
         {/* Show uploaded image preview if available */}
         {imageUploadedUrl && (
           <img
-            className={styles.image}
-            src={imageUploadedUrl}></img>
+          className={styles.image}
+          src={imageUploadedUrl}></img>
         )}
         {/* Output string from AI */}
+        <p>STATUS:</p>
         <p>{outString}</p>
+        <div className={styles.fileInput}>
+          <input
+            type="file"
+            id="filePicker"
+            onChange={handleFileUpload}
+            className={styles.filePicker}
+          />
+          <label htmlFor="filePicker" className={styles.buttonLabel}>Upload image</label>
+        </div>
         {/* Buttons to trigger AI processing */}
-        <button onClick={sendToBackendPlain}>process photo plain</button>
-        <button onClick={sendToBackendTrained}>process photo trained</button>
+        <button onClick={sendToBackendPlain} className={styles.processButton}>process photo plain</button>
+        <button onClick={sendToBackendTrained} className={styles.processButton} >process photo trained</button>
       </main>
     </>
   );
