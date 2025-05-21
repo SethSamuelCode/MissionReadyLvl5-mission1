@@ -1,16 +1,23 @@
+// App.jsx - Main React component for image upload and AI processing UI
+// Imports CSS module for styling
 import styles from "./App.module.css";
 
+// Import React hooks
 import { useState, useRef } from "react";
 
 function App() {
-  const [outString, setOutString] = useState("hello world");
+  // State for output string shown to user
+  const [outString, setOutString] = useState("Select Image");
+  // State for uploaded image URL (for preview)
   const [imageUploadedUrl, setImageUploadedUrl] = useState(null);
+  // Ref to hold base64 string to send to backend
   const imageBase64ToSend = useRef(null);
 
   // ----------------------- DEFINES ---------------------- //
   //we detect the base64,/part and grab everything after it
   //this is the base64 image we send to the backend for processing
   const regexForBase64Image = /(?<=base64.).+/;
+  // Backend endpoints for AI processing
   // const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
   const BACKEND_URL_TRAINED = "http://localhost:4000/identTrained";
   const BACKEND_URL_PLAIN = "http://localhost:4000/identPlain";
@@ -18,19 +25,19 @@ function App() {
   // --------------------- FILE UPLOAD -------------------- //
 
   function handleFileUpload(e) {
-    const imageFile = e.target.files[0];
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(imageFile);
+    const imageFile = e.target.files[0]; // Get selected file
+    const fileReader = new FileReader(); // Create FileReader
+    fileReader.readAsDataURL(imageFile); // Read file as DataURL
     fileReader.onload = () => {
       console.log(fileReader.result);
-      //set image to be visible on the page
+      // Set image preview
       setImageUploadedUrl(fileReader.result);
       //destructure the array from Regex.exec()
       //Regex.exec() strips un needed info from the base 64
       const [imageBase64] = regexForBase64Image.exec(fileReader.result);
       imageBase64ToSend.current = imageBase64;
       console.log(imageBase64ToSend.current);
-      // imageBase64ToSend.current = fileReader.result;
+      // Update output string
       setOutString("Ready");
     };
   }
@@ -49,22 +56,19 @@ function App() {
       }),
     });
     const data = await resp.json();
-    // console.log(data.data.localizedObjectAnnotations[0])
     const imageInfo = data.data;
-    // console.log(imageInfo)
+
+    // Build output string from tags and confidence values
     for (const tagArr of imageInfo) {
       console.log(tagArr);
       if (!tempOutString) {
         tempOutString += `${tagArr.tag} with a confidence of ${(tagArr.confidence * 100).toFixed(2)} %\n`;
-      }else{
-        tempOutString +=` and a ${tagArr.tag} with a confidence of ${(tagArr.confidence * 100).toFixed(2)} %`
+      } else {
+        tempOutString += ` and a ${tagArr.tag} with a confidence of ${(tagArr.confidence * 100).toFixed(2)} %`;
       }
-
     }
 
-    setOutString(
-      `Google Thinks this is a ${tempOutString}\n`
-    );
+    setOutString(`AI Thinks this is a ${tempOutString}\n`);
   }
 
   // ---------------------- NORMAL AI --------------------- //
@@ -81,36 +85,38 @@ function App() {
       }),
     });
     const data = await resp.json();
-    // console.log(data.data.localizedObjectAnnotations[0])
+    // Get first detected object annotation
     const imageInfo = data.data.localizedObjectAnnotations[0];
     setOutString(
-      `Google Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`
+      `AI Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`
     );
   }
 
   return (
     <>
       {/* // ----------------------- NAVBAR ----------------------- // */}
-
       <nav>
         <div className={styles.navContainer}></div>
       </nav>
       {/* // ----------------------- HEADER ----------------------- // */}
-
       <div className={styles.header}>
         <h1>Seth Samuel mission 1</h1>
       </div>
       <main className={styles.mainContainer}>
+        {/* File input for image upload */}
         <input
           type="file"
           onChange={handleFileUpload}
         />
+        {/* Show uploaded image preview if available */}
         {imageUploadedUrl && (
           <img
             className={styles.image}
             src={imageUploadedUrl}></img>
         )}
+        {/* Output string from AI */}
         <p>{outString}</p>
+        {/* Buttons to trigger AI processing */}
         <button onClick={sendToBackendPlain}>process photo plain</button>
         <button onClick={sendToBackendTrained}>process photo trained</button>
       </main>
@@ -118,4 +124,5 @@ function App() {
   );
 }
 
+// Export main App component
 export default App;

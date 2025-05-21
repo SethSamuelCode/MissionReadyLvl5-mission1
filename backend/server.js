@@ -1,64 +1,54 @@
 // ------------------ SETUP AND INSTALL ----------------- //
 
-require("dotenv").config(); // Load environment variables from .env file
-const { GoogleAuth } = require("google-auth-library"); // Google authentication library
-const express = require("express"); // Express web framework
+require("dotenv").config(); // Load environment variables from .env
+const { GoogleAuth } = require("google-auth-library"); // Google Cloud authentication
+const express = require("express"); // Express web server
 const app = express();
 const cors = require("cors"); // CORS middleware
-const PORT = process.env.SERVER_LISTEN_PORT; // Server port from environment
-//for error checking
-const assert = require("node:assert/strict"); // Node.js assertion library
+const PORT = process.env.SERVER_LISTEN_PORT; // Port from environment
+const assert = require("node:assert/strict"); // Assertion utility for debugging
 
 // --------------------- MIDDLEWARES -------------------- //
 
-const morgan = require("morgan"); // HTTP request logger middleware
-app.use(morgan("dev")); // Use morgan for logging
-//set allowable size to 10MB
-app.use(express.json({ limit: "10MB" })); // Parse JSON bodies up to 10MB
+const morgan = require("morgan"); // HTTP request logger
+app.use(morgan("dev")); // Log requests to console
+app.use(express.json({ limit: "10MB" })); // Parse JSON bodies up to 10MB. this is the limit for google API
 
-// CORS configuration to allow only specific origins
+// Configure CORS to allow only specific origins
 const corsConfigs = {
   origin: (incomingOrigin, allowedAccess) => {
-    //we add regex of sites we want to allow here
+    // Allow localhost (any port) and production domain
     const allowedOrigins = [/^http:\/\/localhost:\d+$/, /^https:\/\/mission1.sethsamuel.dev/];
-
-    //some requests dont have an origin so we allow those through.
-    //we scan the lists of allowed origins and if it works we allow them through
+    // Allow requests with no origin (e.g., curl, server-to-server)
     if (!incomingOrigin || allowedOrigins.some((testOrigin) => testOrigin.test(incomingOrigin))) {
-      allowedAccess(null, true); // Allow request
+      allowedAccess(null, true); // Allow
     } else {
-      allowedAccess(null, false); // Block request
+      allowedAccess(null, false); // Deny
     }
   },
 };
-
 app.use(cors(corsConfigs)); // Apply CORS policy
 
 // ---------------------- FUNCTIONS --------------------- //
 
-// Get a Google Cloud access token using a service account key
+// Obtain a Google Cloud access token using a service account
 async function getAccessToken() {
   const auth = new GoogleAuth({
-    keyFile: "./secrets/serviceKey.json", // Path to service account key
-    scopes: "https://www.googleapis.com/auth/cloud-platform", // Required scope
+    keyFile: "./secrets/serviceKey.json", // Service account key file
+    scopes: "https://www.googleapis.com/auth/cloud-platform", // Cloud platform scope
   });
-
-  const client = await auth.getClient(); // Get authenticated client
-  const token = await client.getAccessToken(); // Get access token
-  return token; // Return token object
+  const client = await auth.getClient();
+  const token = await client.getAccessToken();
+  return token;
 }
 
 // --------------------- TRAINED API -------------------- //
 
-
-// Call Google Vision API with a base64-encoded image and return results
+// Call a custom-trained Google Vision API endpoint with a base64 image
 async function getTrainedAIResults(imageBase64) {
-  //check if the correct type gets passed in
-  // assert.ok( (typeof imageBase64)==String);
-  const tokenUser = await getAccessToken(); // Get Google access token
-  // console.log(tokenUser.token);
-  // ------------------------------------------------------ //
-
+  // Optionally check input type
+  // assert.ok(typeof imageBase64 === 'string');
+  const tokenUser = await getAccessToken();
   const resp = await fetch(process.env.GOOGLE_VISION_URL_TRAINED, {
     method: "POST",
     headers: {
@@ -68,34 +58,25 @@ async function getTrainedAIResults(imageBase64) {
     },
     body: JSON.stringify({
       instances: [
-        {
-          content: imageBase64, // Image data
-        },
+        { content: imageBase64 },
       ],
       parameters: {
-        confidenceThreshold: 0.5, // Only return predictions above this confidence
+        confidenceThreshold: 0.5, // Only predictions above this confidence
         maxPredictions: 5, // Limit number of predictions
       },
     }),
   });
-  const data = await resp.json(); // Parse response JSON
-  const responseObject = data;
-  // console.log(responseObject); // Log response
-  return responseObject; // Return response
+  const data = await resp.json();
+  return data;
 }
 
 // --------------------- NORMAL API --------------------- //
 
-
-//async function so i can await get google access token.
-// the set up needs to complete before doing anything else
+// Call the standard Google Vision API for object localization
 async function getPlainAIResults(imageBase64) {
-  //check if the correct type gets passed in
-  // assert.ok( (typeof imageBase64)==String);
-  // console.log(imageBase64)
+  // Optionally check input type
+  // assert.ok(typeof imageBase64 === 'string');
   const tokenUser = await getAccessToken();
-  // console.log(tokenUser.token);
-  // ------------------------------------------------------ //
   const resp = await fetch(process.env.GOOGLE_VISION_URL_PLAIN, {
     method: "POST",
     headers: {
@@ -106,76 +87,62 @@ async function getPlainAIResults(imageBase64) {
     body: JSON.stringify({
       requests: [
         {
-          image: {
-            content: imageBase64,
-          },
+          image: { content: imageBase64 },
           features: [
-            {
-              maxResults: 1,
-              type: "OBJECT_LOCALIZATION",
-            },
+            { maxResults: 1, type: "OBJECT_LOCALIZATION" },
           ],
         },
       ],
     }),
   });
   const data = await resp.json();
-  const responseObject = data;
-  console.log(responseObject);
-  return responseObject;
+  console.log(data); // Log full response for debugging
+  return data;
 }
-// --------------------- ENTRYPOINT --------------------- //
 
-// getAIResults(); // (Unused entrypoint)
 // ----------------------- ROUTES ----------------------- //
 
-// Test GET endpoint
+// Health check/test GET endpoint
 app.get("/test", (req, resp) => {
   resp.status(200).json({ status: "success", data: "youve hit /test" });
 });
 
-// Test POST endpoint
+// Test POST endpoint to echo received data
 app.post("/postTest", (req, resp) => {
   console.log(req.body);
   resp.status(200).json({ status: "success", data: req.body });
 });
 
-// Dummy endpoint for receiving base64 images
+// Dummy endpoint for receiving and logging base64 images
 app.post("/sendImageBase64", (req, resp) => {
   console.log(req.body.image);
   resp.status(200).json({ status: "success", data: "ok" });
 });
 
-// Main endpoint for image identification using Google Vision API
+// Endpoint for custom-trained model predictions
 app.post("/identTrained", async (req, resp) => {
-  // console.log("Received base64 image:", req.body.image);
-  // console.log(req.body.image)
-  const ident = await getTrainedAIResults(req.body.image); // Get AI results for image
-  // console.log(ident.error.details[0])
-  const predArray = ident.predictions[0]; // Extract predictions
-  const identObject = []
-
-  for (let index =0;index<predArray.confidences.length;index++){
-    identObject.push({tag:`${predArray.displayNames[index]}`,confidence:`${predArray.confidences[index]}`})
+  const ident = await getTrainedAIResults(req.body.image);
+  const predArray = ident.predictions[0];
+  const identObject = [];
+  // Build array of {tag, confidence} objects from predictions
+  for (let index = 0; index < predArray.confidences.length; index++) {
+    identObject.push({
+      tag: `${predArray.displayNames[index]}`,
+      confidence: `${predArray.confidences[index]}`,
+    });
   }
-  
-  // console.log(predArray); // Log predictions
   console.log(identObject); // Log predictions
-  resp.status(200).json({ status: "success", data: identObject }); // Respond with first response
+  resp.status(200).json({ status: "success", data: identObject });
 });
 
+// Endpoint for standard Vision API object localization
 app.post("/identPlain", async (req, resp) => {
-  // console.log("Received base64 image:", req.body.image);
-  // console.log(req.body.image)
-  const ident = await getPlainAIResults(req.body.image)
-  // console.log(ident.error.details[0])
-  console.log(ident.responses[0])
+  const ident = await getPlainAIResults(req.body.image);
+  console.log(ident.responses[0]); // Log response
   resp.status(200).json({ status: "success", data: ident.responses[0] });
 });
 
-
-
-// Start the Express server and listen for requests
+// Start the Express server
 app
   .listen(PORT, () => {
     console.log(`server is listening at http://localhost:${PORT}`);
