@@ -12,8 +12,10 @@ function App() {
   //this is the base64 image we send to the backend for processing
   const regexForBase64Image = /(?<=base64.).+/;
   // const BACKEND_URL = "https://mrlvl5m1be.fluffyb.net/ident";
-  const BACKEND_URL_ADV = "http://localhost:4000/ident";
+  const BACKEND_URL_TRAINED = "http://localhost:4000/identTrained";
   const BACKEND_URL_PLAIN = "http://localhost:4000/identPlain";
+
+// --------------------- FILE UPLOAD -------------------- //
 
   function handleFileUpload(e) {
     const imageFile = e.target.files[0];
@@ -32,10 +34,11 @@ function App() {
       setOutString("Ready");
     };
   }
+// --------------------- TRAINED AI --------------------- //
 
-  async function sendToBackendAdv() {
+  async function sendToBackendTrained() {
     console.log(imageBase64ToSend.current)
-    const resp = await fetch(BACKEND_URL, {
+    const resp = await fetch(BACKEND_URL_TRAINED, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=utf-8",
@@ -47,8 +50,12 @@ function App() {
     const data = await resp.json()
     // console.log(data.data.localizedObjectAnnotations[0])
     const imageInfo=data.data.localizedObjectAnnotations[0]
-    setOutString(`Google Thinks this is a ${imageInfo.name} with a certinty of ${(imageInfo.score * 100).toFixed(2)} %`)
+    setOutString(`Google Thinks this is a ${imageInfo.name} with a certainty of ${(imageInfo.score * 100).toFixed(2)} %`)
   }
+
+// ---------------------- NORMAL AI --------------------- //
+
+
     async function sendToBackendPlain() {
     console.log(imageBase64ToSend.current)
     const resp = await fetch(BACKEND_URL_PLAIN, {
@@ -91,7 +98,7 @@ function App() {
         )}
         <p>{outString}</p>
         <button onClick={sendToBackendPlain}>process photo plain</button>
-        <button onClick={sendToBackendAdv}>process photo trained</button>
+        <button onClick={sendToBackendTrained}>process photo trained</button>
       </main>
     </>
   );

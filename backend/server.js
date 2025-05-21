@@ -48,15 +48,18 @@ async function getAccessToken() {
   return token; // Return token object
 }
 
+// --------------------- TRAINED API -------------------- //
+
+
 // Call Google Vision API with a base64-encoded image and return results
-async function getCustomAIResults(imageBase64) {
+async function getTrainedAIResults(imageBase64) {
   //check if the correct type gets passed in
   // assert.ok( (typeof imageBase64)==String);
   const tokenUser = await getAccessToken(); // Get Google access token
   // console.log(tokenUser.token);
   // ------------------------------------------------------ //
 
-  const resp = await fetch(process.env.GOOGLE_VISION_URL, {
+  const resp = await fetch(process.env.GOOGLE_VISION_URL_TRAINED, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${tokenUser.token}`,
@@ -77,20 +80,12 @@ async function getCustomAIResults(imageBase64) {
   });
   const data = await resp.json(); // Parse response JSON
   const responseObject = data;
-  console.log(responseObject); // Log response
+  // console.log(responseObject); // Log response
   return responseObject; // Return response
 }
 
-async function getAccessToken() {
-  const auth = new GoogleAuth({
-    keyFile: "./secrets/serviceKey.json",
-    scopes: "https://www.googleapis.com/auth/cloud-platform",
-  });
+// --------------------- NORMAL API --------------------- //
 
-  const client = await auth.getClient();
-  const token = await client.getAccessToken();
-  return token;
-}
 
 //async function so i can await get google access token.
 // the set up needs to complete before doing anything else
@@ -152,15 +147,21 @@ app.post("/sendImageBase64", (req, resp) => {
 });
 
 // Main endpoint for image identification using Google Vision API
-app.post("/ident", async (req, resp) => {
+app.post("/identTrained", async (req, resp) => {
   // console.log("Received base64 image:", req.body.image);
   // console.log(req.body.image)
-  const ident = await getAIResults(req.body.image); // Get AI results for image
+  const ident = await getTrainedAIResults(req.body.image); // Get AI results for image
   // console.log(ident.error.details[0])
-  const predArray = ident.predictions; // Extract predictions
+  const predArray = ident.predictions[0]; // Extract predictions
+  const identObject = []
+
+  for (let index =0;index<predArray.confidences.length;index++){
+    identObject.push({tag:`${predArray.displayNames[index]}`,confidence:`${predArray.confidences[index]}`})
+  }
   
-  console.log(predArray); // Log predictions
-  resp.status(200).json({ status: "success", data: ident.responses[0] }); // Respond with first response
+  // console.log(predArray); // Log predictions
+  console.log(identObject); // Log predictions
+  resp.status(200).json({ status: "success", data: identObject }); // Respond with first response
 });
 
 app.post("/identPlain", async (req, resp) => {

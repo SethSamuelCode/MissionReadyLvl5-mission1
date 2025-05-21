@@ -15808,7 +15808,6 @@ gs://cars_raw/GMC_Yukon_2020_67_20_420_62_8_80_74_nan_nan_RWD_7_4_SUV_RWT.jpg,GM
 gs://cars_raw/GMC_Yukon_2020_67_20_420_62_8_80_74_nan_nan_RWD_7_4_SUV_SBF.jpg,GMC,SUV
 gs://cars_raw/GMC_Yukon_2020_67_20_420_62_8_80_74_nan_nan_RWD_7_4_SUV_ssu.jpg,GMC,SUV
 gs://cars_raw/GMC_Yukon_2020_67_20_420_62_8_80_74_nan_nan_RWD_7_4_SUV_WUr.jpg,GMC,SUV
-gs://cars_raw/googleTrainingList.csv,googleTrainingList.csv,undefined
 gs://cars_raw/Honda_Accord_2011_25_17_190_24_4_72_56_191_22_FWD_5_2_hatchback_aEe.jpg,Honda,hatchback
 gs://cars_raw/Honda_Accord_2011_25_17_190_24_4_72_56_191_22_FWD_5_2_hatchback_agV.jpg,Honda,hatchback
 gs://cars_raw/Honda_Accord_2011_25_17_190_24_4_72_56_191_22_FWD_5_2_hatchback_aMH.jpg,Honda,hatchback
@@ -18503,33 +18502,6 @@ gs://cars_raw/Hyundai_Ioniq_2020_23_15_130_16_4_71_56_176_57_FWD_5_4_sedan_yjU.j
 gs://cars_raw/Hyundai_Ioniq_2020_23_15_130_16_4_71_56_176_57_FWD_5_4_sedan_YYR.jpg,Hyundai,sedan
 gs://cars_raw/Hyundai_Ioniq_2020_23_15_130_16_4_71_56_176_57_FWD_5_4_sedan_znZ.jpg,Hyundai,sedan
 gs://cars_raw/Hyundai_Ioniq_2020_23_15_130_16_4_71_56_176_57_FWD_5_4_sedan_zxL.jpg,Hyundai,sedan
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_adn.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_arA.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_CCG.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_fMa.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_GAE.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_gfC.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_gjq.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_hxR.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_ILE.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_jAX.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_jKx.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_LYS.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_mKi.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_mys.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_nrY.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_OKz.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_OqL.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_rQO.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_UIs.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_VXa.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_VzU.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2019_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_WuA.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2020_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_Bjh.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2020_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_bLw.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2020_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_iwW.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2020_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_NQT.jpg,Hyundai,SUV
-gs://cars_raw/Hyundai_Kona Electric_2020_41_17_200_nan_nan_70_61_164_nan_FWD_5_4_SUV_uYC.jpg,Hyundai,SUV
 gs://cars_raw/Hyundai_Kona_2019_31_18_170_16_4_70_61_164_26_AWD_5_4_SUV_ASa.jpg,Hyundai,SUV
 gs://cars_raw/Hyundai_Kona_2019_31_18_170_16_4_70_61_164_26_AWD_5_4_SUV_bOK.jpg,Hyundai,SUV
 gs://cars_raw/Hyundai_Kona_2019_31_18_170_16_4_70_61_164_26_AWD_5_4_SUV_Cxh.jpg,Hyundai,SUV
@@ -31610,7 +31582,6 @@ gs://cars_raw/Porsche_Taycan_2020_103_19_520_nan_nan_77_54_195_nan_AWD_4_4_sedan
 gs://cars_raw/Porsche_Taycan_2020_103_19_520_nan_nan_77_54_195_nan_AWD_4_4_sedan_ZtI.jpg,Porsche,sedan
 gs://cars_raw/Porsche_Taycan_2020_103_19_520_nan_nan_77_54_195_nan_AWD_4_4_sedan_ZuQ.jpg,Porsche,sedan
 gs://cars_raw/Porsche_Taycan_2020_103_19_520_nan_nan_77_54_195_nan_AWD_4_4_sedan_ZyJ.jpg,Porsche,sedan
-gs://cars_raw/results.txt,results.txt,undefined
 gs://cars_raw/Subaru_Ascent_2019_31_18_260_24_4_76_71_196_21_AWD_8_4_SUV_aaE.jpg,Subaru,SUV
 gs://cars_raw/Subaru_Ascent_2019_31_18_260_24_4_76_71_196_21_AWD_8_4_SUV_ADm.jpg,Subaru,SUV
 gs://cars_raw/Subaru_Ascent_2019_31_18_260_24_4_76_71_196_21_AWD_8_4_SUV_aTY.jpg,Subaru,SUV
