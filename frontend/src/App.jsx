@@ -26,14 +26,14 @@ function App() {
 
   function handleFileUpload(e) {
     const imageFile = e.target.files[0]; // Get selected file
-    const fileReader = new FileReader(); // Create FileReader
-    fileReader.readAsDataURL(imageFile); // Read file as DataURL
+    const fileReader = new FileReader(); // Create FileReader for reading data from the user
+    fileReader.readAsDataURL(imageFile); // Read file as DataURL . this will get our Base64 image data as a string for the google endpoint
     fileReader.onload = () => {
       console.log(fileReader.result);
       // Set image preview
       setImageUploadedUrl(fileReader.result);
       //destructure the array from Regex.exec()
-      //Regex.exec() strips un needed info from the base 64
+      //Regex.exec() strips un needed info from the base64 string
       const [imageBase64] = regexForBase64Image.exec(fileReader.result);
       imageBase64ToSend.current = imageBase64;
       console.log(imageBase64ToSend.current);
@@ -94,10 +94,6 @@ function App() {
 
   return (
     <>
-      {/* // ----------------------- NAVBAR ----------------------- // */}
-      <nav>
-        <div className={styles.navContainer}></div>
-      </nav>
       {/* // ----------------------- HEADER ----------------------- // */}
       <div className={styles.header}>
         <h1>Seth Samuel mission 1</h1>
