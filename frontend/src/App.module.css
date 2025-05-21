@@ -1,3 +1,7 @@
+*{
+  --borderRadius: 20px;
+}
+
 .header {
   display: flex;
   justify-content: center;
@@ -14,6 +18,9 @@
 .image {
   object-fit: contain;
   height: 50vh;
+  border: 2px blue solid;
+  border-radius: var(--borderRadius);
+  
   /* width: auto; */
 }
 .filePicker {

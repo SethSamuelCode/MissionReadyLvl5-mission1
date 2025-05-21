@@ -74,7 +74,7 @@ function App() {
   // ---------------------- NORMAL AI --------------------- //
 
   async function sendToBackendPlain() {
-    console.log(imageBase64ToSend.current);
+    // console.log(imageBase64ToSend.current);
     const resp = await fetch(BACKEND_URL_PLAIN, {
       method: "POST",
       headers: {
