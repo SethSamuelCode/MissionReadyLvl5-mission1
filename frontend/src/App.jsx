@@ -96,7 +96,7 @@ function App() {
     <>
       {/* // ----------------------- HEADER ----------------------- // */}
       <div className={styles.header}>
-        <h1>Seth Samuel mission 1</h1>
+        <h1>Car Identifier</h1>
       </div>
       <main className={styles.mainContainer}>
         {/* File input for image upload */}
