@@ -48,7 +48,7 @@ async function getAccessToken() {
 async function getTrainedAIResults(imageBase64) {
   // Optionally check input type
   // assert.ok(typeof imageBase64 === 'string');
-  const tokenUser = await getAccessToken();
+  const tokenUser = await getAccessToken(); // Get Google Cloud access token
   const resp = await fetch(process.env.GOOGLE_VISION_URL_TRAINED, {
     method: "POST",
     headers: {
@@ -58,7 +58,7 @@ async function getTrainedAIResults(imageBase64) {
     },
     body: JSON.stringify({
       instances: [
-        { content: imageBase64 },
+        { content: imageBase64 }, // Send base64 image content
       ],
       parameters: {
         confidenceThreshold: 0.5, // Only predictions above this confidence
@@ -66,7 +66,7 @@ async function getTrainedAIResults(imageBase64) {
       },
     }),
   });
-  const data = await resp.json();
+  const data = await resp.json(); // Parse response as JSON
   return data;
 }
 
@@ -76,7 +76,7 @@ async function getTrainedAIResults(imageBase64) {
 async function getPlainAIResults(imageBase64) {
   // Optionally check input type
   // assert.ok(typeof imageBase64 === 'string');
-  const tokenUser = await getAccessToken();
+  const tokenUser = await getAccessToken(); // Get Google Cloud access token
   const resp = await fetch(process.env.GOOGLE_VISION_URL_PLAIN, {
     method: "POST",
     headers: {
@@ -87,15 +87,15 @@ async function getPlainAIResults(imageBase64) {
     body: JSON.stringify({
       requests: [
         {
-          image: { content: imageBase64 },
+          image: { content: imageBase64 }, // Send base64 image content
           features: [
-            { maxResults: 1, type: "OBJECT_LOCALIZATION" },
+            { maxResults: 1, type: "OBJECT_LOCALIZATION" }, // Request object localization
           ],
         },
       ],
     }),
   });
-  const data = await resp.json();
+  const data = await resp.json(); // Parse response as JSON
   console.log(data); // Log full response for debugging
   return data;
 }

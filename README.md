@@ -19,7 +19,7 @@
 <h3 align="center">Seth Samuel Mission 1</h3>
 
   <p align="center">
-    Detecting car type from an image
+    Detecting car type from an image using a web biased AI 
     <br />
   </p>
 </div>
